@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,11 +77,9 @@ WSGI_APPLICATION = 'dfoTools.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'DFOTOOLS',
-        'USER': 'dfoTools',
-        'PASSWORD': 'df0t00ls?',
-        'HOST': '',
-        'PORT': '',
+        'OPTIONS': {
+            'read_default_file': '/etc/mysql/my.cnf'
+        }
     }
 }
 
