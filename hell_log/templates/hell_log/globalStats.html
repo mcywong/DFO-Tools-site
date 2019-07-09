@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Hell Logger Global Stats</title>
-    </head>
-    <body>
-        <h3>Global Stats</h3>
-        <div>
-            {% if total_runs and total_drops %}
-            <p>{{ total_drops }} epics found in {{total_runs}} runs!</p>
-            {% else %}
-            <p>No run data available</p>
-            {% endif %}
-            <a href="{% url 'hell_log:home' %}">Return to Accounts</a>
-        </div>
-    </body>
-</html>
-
+{% extends 'base/blank.html' %}
+{% block content %}
+    <h3>Global Stats</h3>
+    <div>
+        {% if total_runs and total_drops %}
+        <p>{{ total_drops }} epics found in {{total_runs}} runs!</p>
+        {% else %}
+        <p>No run data available</p>
+        {% endif %}
+        <a href="{% url 'hell_log:home' %}">Return to Accounts</a>
+    </div>
+{% endblock content %}

@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Hell Logger</title>
-    </head>
-    <body>
-        <h3>Log {{ character.name }}'s hell runs</h3>
-        <p>
-            Instructions: Increment the Runs field as you run hells. 
-            Add drops as you find them and click submit when you are done for the day on {{ character.name }}.
-        </p>
-        <form action="{% url 'hell_log:Log Hell' account.id character.id %}" method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit", value="Submit">
-        </form>
-
-    </body>
-</html>
+{% extends 'base/blank.html' %}
+{% block content %}
+    <h3>Log {{ character.name }}'s hell runs</h3>
+    <p>
+        Instructions: Increment the Runs field as you run hells. 
+        Add drops as you find them and click submit when you are done for the day on {{ character.name }}.
+    </p>
+    <form action="{% url 'hell_log:Log Hell' account.id character.id %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit", value="Submit">
+    </form>
+{% endblock content %}

@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from . import views
 
@@ -8,4 +9,6 @@ urlpatterns = [
     path('<int:account_id>/', views.characterList, name="Character List"),
     path('<int:account_id>/<int:character_id>/LogHell', views.logHell, name="Log Hell"),
     path('stats/', views.globalStatistics, name="Global Stats"),
+    ## bootstrap test page
+    path('bootstrap/', TemplateView.as_view(template_name="bootstrap/example.html")),
 ]
