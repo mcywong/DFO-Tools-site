@@ -31,5 +31,3 @@ class HellRuns(models.Model):
     StoneBox = models.IntegerField(default=0)
     EpicSoul = models.IntegerField(default=0)
     EpicDrops = models.IntegerField(default=0)
-
-

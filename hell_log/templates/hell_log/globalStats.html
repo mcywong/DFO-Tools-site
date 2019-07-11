@@ -2,11 +2,17 @@
 {% block content %}
     <h3>Global Stats</h3>
     <div>
-        {% if total_runs and total_drops %}
-        <p>{{ total_drops }} epics found in {{total_runs}} runs!</p>
-        {% else %}
-        <p>No run data available</p>
-        {% endif %}
+
+        <div id="graphs" data-url="{% url 'hell_log:chart_data' %}"></div>
+        <script>
+            $.ajax({
+                url: $("#graphs").attr("data-url"),
+                dataType: 'json',
+                success:function(data){
+                    Highcharts.chart("graphs", data);
+                }
+            });
+        </script>
         <a href="{% url 'hell_log:home' %}">Return to Accounts</a>
     </div>
 {% endblock content %}

@@ -1,5 +1,9 @@
+HARLEM_HELL = 'hh'
+SKY_RIFT = 'SR'
+CELESTIAL_RIFT = 'CR'
+
 HELL_TYPE_CHOICES =[
-    ('hh', 'Harlem Hell'),
-    ('SR', 'Sky Rift'),
-    ('CR', 'Celestial Rift'),
+    (HARLEM_HELL, 'Harlem Hell'),
+    (SKY_RIFT, 'Sky Rift'),
+    (CELESTIAL_RIFT, 'Celestial Rift'),
 ]
