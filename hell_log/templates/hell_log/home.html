@@ -1,19 +1,22 @@
 {% extends 'base/blank.html' %}
 
 {% block content %}
-    <h3>Accounts List</h3>
-    <div>
-        {% if latest_account_list %}
-        <ul>
-            {% for account in latest_account_list %}
-            <li><a href="{% url 'hell_log:Character List' account.id %}">{{ account.username }}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>No Accounts Available</p>
-        {% endif %}
-
-        <p><a href="{% url 'hell_log:Global Stats' %}"> See global stats here</a></p>
+<!-- Area Chart Example-->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-list"></i> Accounts List
+        </div>
+        <div class="card-body">
+            {% if latest_account_list %}
+                <ul>
+                    {% for account in latest_account_list %}
+                        <li><a href="{% url 'hell_log:Character List' account.id %}">{{ account.username }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No Accounts Available</p>
+            {% endif %}
+        </div>
     </div>
 {% endblock content %}
 
