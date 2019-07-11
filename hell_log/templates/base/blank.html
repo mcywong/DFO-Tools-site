@@ -95,10 +95,10 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'hell_log:home' %}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
+          <span>Home</span>
         </a>
       </li>
-      <li class="nav-item dropdown">
+      {% comment %} <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-fw fa-folder"></i>
           <span>Pages</span>
@@ -123,20 +123,20 @@
         <a class="nav-link" href="tables.html">
           <i class="fas fa-fw fa-table"></i>
           <span>Tables</span></a>
-      </li>
+      </li> {% endcomment %}
     </ul>
 
     <div id="content-wrapper">
 
       <div class="container-fluid">
 
-        <!-- Breadcrumbs-->
+        {% comment %} <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="{% url 'hell_log:home' %}">Dashboard</a>
+            <a href="{% url 'hell_log:home' %}">Home</a>
           </li>
           <li class="breadcrumb-item active">Blank Page</li>
-        </ol>
+        </ol> {% endcomment %}
 
         <!-- Page Content -->
         {% block content %}
