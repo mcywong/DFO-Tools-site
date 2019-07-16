@@ -46,7 +46,13 @@ def chart_data(request):
     chart = {
         'chart': {'type': 'column'},
         'title': {'text': 'Global Drop Rates in all Hell Runs'},
-        'xAxis': {'categories': ['Epic Gear', 'Hell Orb', 'Stone Box', 'Epic Souls']},
+        'xAxis': {'categories': ['Epic Gear', 'Hell Orb', 'Stone Box', 'Epic Souls', 'Sky Fragments', 'Antimatter Particles']},
+        'yAxis': {'title':{'text': 'Drop Rates (%)'}},
+        'plotOptions':{
+            'column':{
+                'dataLabels':{'enabled': 'true'}
+            }
+        },
         'series': [{
             'name': 'Harlem Hell',
             'data': harlem_rates
@@ -69,19 +75,23 @@ def getDropRates(Hell_Type):
     hell_runs = HellRuns.objects.filter(HellType=Hell_Type).aggregate(total_runs=Sum('Runs'),)
     runs = hell_runs['total_runs']
     if runs is None or runs == 0:
-        return [0, 0, 0, 0]
+        return [0, 0, 0, 0, 0, 0]
 
     drop_query = HellRuns.objects.filter(HellType=Hell_Type).aggregate(
         total_drops=Sum('EpicDrops'),
         total_orbs=Sum('HellOrb'),
         total_boxes=Sum('StoneBox'),
         total_souls=Sum('EpicSoul'),
+        total_sky_frags=Sum('SkyFrags'),
+        total_particles=Sum('AntimatterParticle'),
     )
     drop_list = [
         drop_query['total_drops'],
         drop_query['total_orbs'],
         drop_query['total_boxes'],
         drop_query['total_souls'],
+        drop_query['total_sky_frags'],
+        drop_query['total_particles'],
     ]
 
-    return [v/runs for v in drop_list]
+    return [float('%.3f'%(v/runs*100)) for v in drop_list]
