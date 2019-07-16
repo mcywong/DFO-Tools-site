@@ -7,13 +7,16 @@ from .logger import HellForm
 from .choices import HARLEM_HELL, SKY_RIFT, CELESTIAL_RIFT
 from .models import Account, Character, HellRuns
 
-# Create your views here.
+# Home/Login
 def home(request):
     latest_account_list = Account.objects.order_by('id')
     context = {
         'latest_account_list': latest_account_list,
     }
     return render(request, 'hell_log/home.html',context)
+
+# def signup(request):
+
 
 def characterList(request, account_id):
     account = get_object_or_404(Account, pk=account_id)
