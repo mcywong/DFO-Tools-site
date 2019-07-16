@@ -6,14 +6,12 @@
             <i class="fas fa-list"></i> Accounts List
         </div>
         <div class="card-body">
-            {% if latest_account_list %}
-                <ul>
-                    {% for account in latest_account_list %}
-                        <li><a href="{% url 'hell_log:Character List' account.id %}">{{ account.username }}</a></li>
-                    {% endfor %}
-                </ul>
+            {% if user.is_authenticated %}
+                Hi {{ user.username }}!
+                <p><a href="{% url 'hell_log:logout' %}">logout</a></p>
             {% else %}
-                <p>No Accounts Available</p>
+                <p>You are not logged in</p>
+                <a href="{% url 'hell_log:login' %}">login</a>
             {% endif %}
         </div>
     </div>

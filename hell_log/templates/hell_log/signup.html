@@ -1,0 +1,15 @@
+{% extends 'base/blank.html' %}
+{% block content %}
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-list"></i> {{ account.username }}'s Character List
+        </div>
+        <div class="card-body">
+            <ul>
+                {% for character in account.character_set.all %}
+                    <li><a href="{% url 'hell_log:Log Hell' account.id character.id %}">{{ character.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock content %}

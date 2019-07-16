@@ -29,6 +29,9 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = []
 
+# Login redirect
+LOGIN_REDIRECT_URL = '/hell_log/'
+LOGOUT_REDIRECT_URL = '/hell_log/'
 
 # Application definition
 
@@ -57,7 +60,7 @@ ROOT_URLCONF = 'dfoTools.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'hell_log/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
