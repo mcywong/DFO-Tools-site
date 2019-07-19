@@ -32,7 +32,6 @@ def signup(request):
 @login_required(login_url='hell_log:login')
 def characterCreation(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    character_set = get_list_or_404(Character, account=user_id)
     if request.method == 'POST':
         character = Character(account = user)
         form = CharacterForm(request.POST, instance=character)
@@ -45,7 +44,6 @@ def characterCreation(request, user_id):
     context = {
         'form': form,
         'user': user,
-        'character_set': character_set
     }
 
     return render(request, 'hell_log/characterCreation.html', context)
@@ -53,8 +51,12 @@ def characterCreation(request, user_id):
 @login_required(login_url='hell_log:login')
 def characterList(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    character_set = get_list_or_404(Character, account=user_id)
-    return render(request, "hell_log/characterList.html", {"user": user})
+    character_set = list(Character.objects.filter(account=user_id).order_by('id'))
+    context = {
+        'character_set':character_set,
+        'user': user,
+    }
+    return render(request, "hell_log/characterList.html", context)
 
 @login_required(login_url='hell_log:login')
 def logHell(request, user_id, character_id):

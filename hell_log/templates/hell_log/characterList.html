@@ -5,11 +5,15 @@
             <i class="fas fa-list"></i> {{ user.username }}'s Character List
         </div>
         <div class="card-body">
-            <ul>
-                {% for character in user.character_set.all %}
-                    <li><a href="{% url 'hell_log:Log Hell' user.id character.id %}">{{ character.Name }}</a></li>
-                {% endfor %}
-            </ul>
+            {% if character_set %}
+                <ul>
+                    {% for character in user.character_set.all %}
+                        <li><a href="{% url 'hell_log:Log Hell' user.id character.id %}">{{ character.Name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No Characters Made</p>
+            {% endif %}
             <p><a href="{% url 'hell_log:Character Creation' user.id %}">Add Characters</a></p>
         </div>
     </div>
