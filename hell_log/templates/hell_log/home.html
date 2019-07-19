@@ -3,15 +3,17 @@
 {% block content %}
     <div class="card mb-3">
         <div class="card-header">
-            <i class="fas fa-list"></i> Accounts List
+            <i class="fas fa-home"></i> Home
         </div>
         <div class="card-body">
             {% if user.is_authenticated %}
                 Hi {{ user.username }}!
+                <p><a href="{% url 'hell_log:Character List' user.id %}">Character list</a></p>
                 <p><a href="{% url 'hell_log:logout' %}">logout</a></p>
             {% else %}
-                <p>You are not logged in</p>
-                <a href="{% url 'hell_log:login' %}">login</a>
+                <p>You are not logged in, login or sign up</p>
+                <p><a href="{% url 'hell_log:login' %}">login</a></p>
+                <p><a href="{% url 'hell_log:Sign Up' %}">sign up</a></p>
             {% endif %}
         </div>
     </div>

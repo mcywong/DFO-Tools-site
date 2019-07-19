@@ -4,20 +4,14 @@
         <div class="mainbox">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-center default-text py-3"> Log {{ character.name }}'s hell runs:</h3>
+                    <h3 class="text-center default-text py-3"> Log {{ character.Name }}'s hell runs:</h3>
                     <p>
-                        Add drops as you find them in hell runs and click submit when you are done for the day on {{ character.name }}.
+                        Add drops as you find them in hell runs and click submit when you are done for the day on {{ character.Name }}.
                     </p>
                     <!--Body-->
-                    <form action="{% url 'hell_log:Log Hell' account.id character.id %}" method="POST">
+                    <form action="{% url 'hell_log:Log Hell' user.id character.id %}" method="POST">
                         {% csrf_token %}
-                        {% for field in form%}
-                            <div class="form-group">
-                                {{ field.errors }}
-                                {{ field.label_tag }} {{ field }}
-                            </div>
-                        {% endfor %}
-                        <input type="submit" class="btn btn-success" value="Submit">
+                        {% include "base/formtemplate.html" %}
                     </form>
                 </div>
             </div>

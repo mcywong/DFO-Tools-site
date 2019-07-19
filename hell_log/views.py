@@ -1,29 +1,64 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.db.models import Sum
 
-from .logger import HellForm
+from .logger import HellForm, CharacterForm
 from .choices import HARLEM_HELL, SKY_RIFT, CELESTIAL_RIFT
-from .models import Account, Character, HellRuns
+from .models import Character, HellRuns
+from django.contrib.auth.decorators import login_required
 
 # Home/Login
 def home(request):
-    latest_account_list = Account.objects.order_by('id')
+    return render(request, 'hell_log/home.html')
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return HttpResponseRedirect(reverse('hell_log:home'))
+    else:
+        form = UserCreationForm()
+    return render(request, 'hell_log/signup.html', {'form': form})
+
+@login_required(login_url='hell_log:login')
+def characterCreation(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    character_set = get_list_or_404(Character, account=user_id)
+    if request.method == 'POST':
+        character = Character(account = user)
+        form = CharacterForm(request.POST, instance=character)
+        form.save()
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('hell_log:Character List', kwargs={'user_id':user_id}))
+    else:
+        form = CharacterForm()
+
     context = {
-        'latest_account_list': latest_account_list,
+        'form': form,
+        'user': user,
+        'character_set': character_set
     }
-    return render(request, 'hell_log/home.html',context)
 
-# def signup(request):
+    return render(request, 'hell_log/characterCreation.html', context)
 
+@login_required(login_url='hell_log:login')
+def characterList(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    character_set = get_list_or_404(Character, account=user_id)
+    return render(request, "hell_log/characterList.html", {"user": user})
 
-def characterList(request, account_id):
-    account = get_object_or_404(Account, pk=account_id)
-    return render(request, "hell_log/characterList.html", {"account": account})
-
-def logHell(request, account_id, character_id):
-    account = get_object_or_404(Account, pk=account_id)
+@login_required(login_url='hell_log:login')
+def logHell(request, user_id, character_id):
+    user = get_object_or_404(User, pk=user_id)
     character = get_object_or_404(Character, pk=character_id)
     if request.method == 'POST':
         hellRun = HellRuns(character = character)
@@ -37,11 +72,13 @@ def logHell(request, account_id, character_id):
     
     context = {
         'form': form,
-        "account": account,
+        "user": user,
         'character': character,
     }
     return render(request, "hell_log/logger.html", context)
 
+
+#public graph views
 def chart_data(request):
     harlem_rates = getDropRates(HARLEM_HELL)
     sky_rates = getDropRates(SKY_RIFT)

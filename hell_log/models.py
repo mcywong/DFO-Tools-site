@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from.choices import *
 
 import datetime
@@ -6,17 +7,12 @@ import datetime
 # Create your models here.
 # Theses models should mirror the database schema design
 
-class Account(models.Model):
-    username = models.CharField(max_length=30) #Double check username character limit in game
-    def __str__(self):
-        return self.username
-
 class Character(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    subclass = models.CharField(max_length=30)
-    name = models.CharField(max_length=15)
+    account = models.ForeignKey(User, on_delete=models.CASCADE)
+    Subclass = models.CharField(max_length=30)
+    Name = models.CharField(max_length=15)
     def __str__(self):
-        return self.name
+        return self.Name
 
 class HellRuns(models.Model):
     character = models.ForeignKey(Character, on_delete=models.CASCADE)
