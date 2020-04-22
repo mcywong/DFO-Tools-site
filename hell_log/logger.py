@@ -11,11 +11,8 @@ class HellForm(ModelForm):
             'HellType': 'Hell Type',
             'Runs': 'Hell Runs Done',
             'EpicDrops': 'Epic Gears Dropped',
-            'HellOrb': 'Hell Orbs',
-            'StoneBox': 'Rift Sensor Stone Boxes',
+            'StoneBox': 'Time Guide Stone Boxes',
             'EpicSoul': 'Epic Souls',
-            'SkyFrags': 'Sky Fragment Bombs',
-            'AntimatterParticle': 'Antimatter Particle Drops',
         }
     
     def __init__(self, *args, **kwargs):

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 
 from .logger import HellForm, CharacterForm
-from .choices import HARLEM_HELL, SKY_RIFT, CELESTIAL_RIFT
+from .choices import *
 from .models import Character, HellRuns
 from django.contrib.auth.decorators import login_required
 
@@ -82,13 +82,11 @@ def logHell(request, user_id, character_id):
 
 #public graph views
 def chart_data(request):
-    harlem_rates = getDropRates(HARLEM_HELL)
-    sky_rates = getDropRates(SKY_RIFT)
-    celestial_rates = getDropRates(CELESTIAL_RIFT)
+    wisdom_rates = getDropRates(GUIDE_OF_WISDOM)
     chart = {
         'chart': {'type': 'column'},
         'title': {'text': 'Global Drop Rates in all Hell Runs'},
-        'xAxis': {'categories': ['Epic Gear', 'Hell Orb', 'Stone Box', 'Epic Souls', 'Sky Fragments', 'Antimatter Particles']},
+        'xAxis': {'categories': ['Epic Gear', 'Stone Box', 'Epic Souls']},
         'yAxis': {'title':{'text': 'Drop Rates (%)'}},
         'plotOptions':{
             'column':{
@@ -96,14 +94,8 @@ def chart_data(request):
             }
         },
         'series': [{
-            'name': 'Harlem Hell',
-            'data': harlem_rates
-        }, {
-            'name': 'Sky Rift',
-            'data': sky_rates
-        }, {
-            'name': 'Celestial Rift',
-            'data': celestial_rates
+            'name': "Guide of Wisdom",
+            'data': wisdom_rates,
         }]
     }
 
@@ -117,23 +109,17 @@ def getDropRates(Hell_Type):
     hell_runs = HellRuns.objects.filter(HellType=Hell_Type).aggregate(total_runs=Sum('Runs'),)
     runs = hell_runs['total_runs']
     if runs is None or runs == 0:
-        return [0, 0, 0, 0, 0, 0]
+        return [0, 0, 0,]
 
     drop_query = HellRuns.objects.filter(HellType=Hell_Type).aggregate(
         total_drops=Sum('EpicDrops'),
-        total_orbs=Sum('HellOrb'),
         total_boxes=Sum('StoneBox'),
         total_souls=Sum('EpicSoul'),
-        total_sky_frags=Sum('SkyFrags'),
-        total_particles=Sum('AntimatterParticle'),
     )
     drop_list = [
         drop_query['total_drops'],
-        drop_query['total_orbs'],
         drop_query['total_boxes'],
         drop_query['total_souls'],
-        drop_query['total_sky_frags'],
-        drop_query['total_particles'],
     ]
 
     return [float('%.3f'%(v/runs*100)) for v in drop_list]

@@ -20,13 +20,11 @@ class HellRuns(models.Model):
     HellType = models.CharField(
         max_length=2,
         choices=HELL_TYPE_CHOICES,
-        default=HARLEM_HELL
+        default=GUIDE_OF_WISDOM
     )
     Runs = models.IntegerField(default=1) # at least 1 run must be done per entry
-    HellOrb = models.IntegerField(default=0)
     StoneBox = models.IntegerField(default=0)
     EpicSoul = models.IntegerField(default=0)
     EpicDrops = models.IntegerField(default=0)
-    SkyFrags = models.IntegerField(default=0)
-    AntimatterParticle = models.IntegerField(default=0)
+
 
